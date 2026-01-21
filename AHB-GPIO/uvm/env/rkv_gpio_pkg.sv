@@ -6,6 +6,7 @@ package rkv_gpio_pkg;
   `include "uvm_macros.svh"
   import lvc_ahb_pkg::*;
 
+  `include "rkv_gpio_defines"
   `include "rkv_gpio_reg.sv"
   `include "rkv_gpio_config.sv"
   `include "rkv_gpio_reg_adapter.sv"
