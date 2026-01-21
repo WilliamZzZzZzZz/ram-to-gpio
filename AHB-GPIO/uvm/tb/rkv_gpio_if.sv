@@ -24,8 +24,11 @@ interface rkv_gpio_if;
     rstn <= 1;
   endtask
 
-endinterface
+  task drive_portin(logic [15:0] bits);
+    portin <= bits;
+  endtask
 
+endinterface
 
 `endif // RKV_GPIO_IF_SV
 

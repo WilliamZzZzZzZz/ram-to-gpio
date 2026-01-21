@@ -59,6 +59,16 @@ class rkv_gpio_base_virtual_sequence extends uvm_sequence;
     wait_cycles(10);
   endtask
 
+  task get_portin(output bit [15:0] bits, int id = -1);
+    bit temp_bits = 0;
+    rgm.DATA.read(status, bits);
+    if(id > 0) begin
+      temp_bits = bits[id];
+      bits = 0;
+      bit[id] = temp_bits;
+    end
+  endtask
+
 endclass
 
 `endif  
