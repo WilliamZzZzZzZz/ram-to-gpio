@@ -17,7 +17,7 @@ class rkv_gpio_portout_set_virt_seq extends rkv_gpio_base_virtual_sequence;
     repeat(20) begin
       std::randomize(pin_num, pout_num);
       set_and_check_portin(pin_num);
-      set_and_ckeck_portout(pout_num);
+      set_and_check_portout(pout_num);
     end
     `uvm_info(get_type_name(), "Exiting...", UVM_LOW)
   endtask

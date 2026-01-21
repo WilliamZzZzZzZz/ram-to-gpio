@@ -42,8 +42,8 @@ class rkv_gpio_base_virtual_sequence extends uvm_sequence;
       end
     end
     else begin
-      foreach(val[i]) begin
-        if(val[i] !== 1'bx && val2[i] !== 1'bx) begin
+      foreach(val1[i]) begin
+        if(val1[i] !== 1'bx && val2[i] !== 1'bx) begin
           if(val1[i] == val2[i]) begin
             `uvm_info("CMPSUC", $sformatf("val1 'h%0x === val2 'h%0x", val1, val2), UVM_LOW)
           end
