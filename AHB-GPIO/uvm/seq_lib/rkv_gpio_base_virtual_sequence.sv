@@ -31,14 +31,30 @@ class rkv_gpio_base_virtual_sequence extends uvm_sequence;
     `uvm_info("body", "Exiting...", UVM_LOW)
   endtask
 
-  virtual function void compare_data(logic[31:0] val1, logic[31:0] val2);
-    cfg.seq_check_count++;
-    if(val1 === val2)
-      `uvm_info("CMPSUC", $sformatf("val1 'h%0x === val2 'h%0x", val1, val2), UVM_LOW)
-    else begin
-      cfg.seq_check_error++;
-      `uvm_error("CMPERR", $sformatf("val1 'h%0x !== val2 'h%0x", val1, val2))
+  virtual function void compare_data(logic[31:0] val1, logic[31:0] val2, bit wild_compare = 0);
+    if(wild_compare == 0) begin
+      cfg.seq_check_count++;
+      if(val1 === val2)
+        `uvm_info("CMPSUC", $sformatf("val1 'h%0x === val2 'h%0x", val1, val2), UVM_LOW)
+      else begin
+        cfg.seq_check_error++;
+        `uvm_error("CMPERR", $sformatf("val1 'h%0x !== val2 'h%0x", val1, val2))
+      end
     end
+    else begin
+      foreach(val[i]) begin
+        if(val[i] !== 1'bx && val2[i] !== 1'bx) begin
+          if(val1[i] == val2[i]) begin
+            `uvm_info("CMPSUC", $sformatf("val1 'h%0x === val2 'h%0x", val1, val2), UVM_LOW)
+          end
+          else begin
+            cfg.seq_check_error++;
+            `uvm_error("CMPERR", $sformatf("val1 'h%0x !== val2 'h%0x", val1, val2))
+          end
+        end
+      end
+    end
+
   endfunction
 
 
@@ -65,8 +81,18 @@ class rkv_gpio_base_virtual_sequence extends uvm_sequence;
     if(id > 0) begin
       temp_bits = bits[id];
       bits = 0;
-      bit[id] = temp_bits;
+      bits[id] = temp_bits;
     end
+  endtask
+
+  task set_portout_bits(logic [15:0] bits);
+    logic [15:0] pout;
+    uvm_status_e status;
+    rgm.DATAOUT.read(status, pout);
+    foreach(bits[i]) begin
+      pout[i] = (bits[i] === 1'bx ? pout[i] : bits[i]); 
+    end
+    rgm.DATAOUT.write(status, pout);
   endtask
 
 endclass
