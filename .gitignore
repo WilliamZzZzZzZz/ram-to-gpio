@@ -1,0 +1,26 @@
+# --- VCS 编译产生的目录 ---
+csrc/
+DVEfiles/
+AN.DB/
+out/
+
+# --- 编译中间文件与波形 ---
+*.log
+*.vpd
+*.fsdb
+*.key
+*.h
+!*.c  # 如果你有自己写的 C 代码，可以用 ! 排除忽略，防止误伤
+!*.h  # 如果你有自己写的头文件，请小心使用 *.h，建议改为忽略特定的 generated header
+
+# --- 特定的 VCS 垃圾文件 ---
+ucli.key
+vc_hdrs.h
+.inter.vpd.uvm
+.restartSimSession.tcl.old
+.vcs_lib_lock
+
+# --- 可执行文件 (如果有的话) ---
+simv
+*.simv
+*.daidir/
