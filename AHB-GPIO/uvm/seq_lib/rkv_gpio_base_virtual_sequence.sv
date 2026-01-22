@@ -95,6 +95,12 @@ class rkv_gpio_base_virtual_sequence extends uvm_sequence;
     rgm.DATAOUT.write(status, pout);
   endtask
 
+  task set_high_level_interrupt(bit[3:0] id);
+    rgm.INTENSET.write(status, 1 << id);
+    rgm.INTPOLSET.write(status, 1 << id);
+    rgm.INTTYPE.write(status, 0 << id);
+  endtask
+
 endclass
 
 `endif  

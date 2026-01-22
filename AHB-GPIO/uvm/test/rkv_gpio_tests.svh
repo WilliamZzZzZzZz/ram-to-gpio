@@ -3,5 +3,6 @@
 
 `include "rkv_gpio_base_test.sv"
 `include "rkv_gpio_portout_set_test.sv"
+`include "rkv_gpio_interrupt_test.sv"
 
 `endif // RKV_GPIO_TESTS_SVH
