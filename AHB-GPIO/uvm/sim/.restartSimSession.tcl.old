@@ -1,12 +1,17 @@
 # Begin_DVE_Session_Save_Info
 # DVE restart session
-# Saved on Wed Jan 21 16:17:41 2026
+# Saved on Thu Jan 22 22:04:04 2026
 # Designs open: 1
 #   Sim: /home/host/Desktop/RAM-To-GPIO/ram-to-gpio/AHB-GPIO/uvm/sim/out/obj/rkv_gpio_tb.simv
-# Toplevel windows open: 1
+# Toplevel windows open: 2
 # 	TopLevel.1
-#   Source.1: 
-#   Group count = 0
+# 	TopLevel.2
+#   Source.1: uvm_pkg.\uvm_root::run_test 
+#   Wave.1: 50 signals
+#   Group count = 6
+#   Group Group3 signal count = 4
+#   Group AHB-IF signal count = 21
+#   Group GPIO-IF signal count = 9
 # End_DVE_Session_Save_Info
 
 # DVE version: O-2018.09-SP2_Full64
@@ -52,6 +57,20 @@ gui_update_layout -id ${Source.1} {{show_state maximized} {dock_state undocked} 
 # End MDI window settings
 
 
+# Create and position top-level window: TopLevel.2
+
+set TopLevel.2 TopLevel.2
+
+# Docked window settings
+gui_sync_global -id ${TopLevel.2} -option true
+
+# MDI window settings
+set Wave.1 Wave.1
+gui_update_layout -id ${Wave.1} {{show_state maximized} {dock_state undocked} {dock_on_new_line false} {child_wave_left 721} {child_wave_right 1759} {child_wave_colname 358} {child_wave_colvalue 358} {child_wave_col1 0} {child_wave_col2 1}}
+
+# End MDI window settings
+
+
 #</WindowLayout>
 
 #<Database>
@@ -64,15 +83,6 @@ gui_set_time_units 1ps
 
 
 # Global: Breakpoints
-stop -file {/home/host/Desktop/RAM-To-GPIO/ram-to-gpio/AHB-GPIO/uvm/sim/../seq_lib/rkv_gpio_portout_set_virt_seq.sv}  -line {27}   
-stop -disable -file {/home/host/Desktop/RAM-To-GPIO/ram-to-gpio/AHB-GPIO/uvm/sim/../seq_lib/rkv_gpio_portout_set_virt_seq.sv}  -line {28}   
-stop -file {/home/host/Desktop/RAM-To-GPIO/ram-to-gpio/AHB-GPIO/uvm/sim/../seq_lib/rkv_gpio_portout_set_virt_seq.sv}  -line {31}   
-stop -file {/home/host/Desktop/RAM-To-GPIO/ram-to-gpio/AHB-GPIO/uvm/sim/../seq_lib/rkv_gpio_portout_set_virt_seq.sv}  -line {32}   
-stop -file {/home/host/Desktop/RAM-To-GPIO/ram-to-gpio/AHB-GPIO/uvm/sim/../seq_lib/rkv_gpio_portout_set_virt_seq.sv}  -line {33}   
-stop -file {/home/host/Desktop/RAM-To-GPIO/ram-to-gpio/AHB-GPIO/uvm/sim/../seq_lib/rkv_gpio_base_virtual_sequence.sv}  -line {35}   
-stop -file {/home/host/Desktop/RAM-To-GPIO/ram-to-gpio/AHB-GPIO/uvm/sim/../seq_lib/rkv_gpio_base_virtual_sequence.sv}  -line {36}   
-stop -file {/home/host/Desktop/RAM-To-GPIO/ram-to-gpio/AHB-GPIO/uvm/sim/../seq_lib/rkv_gpio_base_virtual_sequence.sv}  -line {39}   
-stop -file {/home/host/Desktop/RAM-To-GPIO/ram-to-gpio/AHB-GPIO/uvm/sim/../seq_lib/rkv_gpio_base_virtual_sequence.sv}  -line {37}   
 
 # Global: Bus
 
@@ -83,7 +93,53 @@ stop -file {/home/host/Desktop/RAM-To-GPIO/ram-to-gpio/AHB-GPIO/uvm/sim/../seq_l
 # Global: Signal Compare
 
 # Global: Signal Groups
+gui_load_child_values {rkv_gpio_tb.ahb_if}
+gui_load_child_values {rkv_gpio_tb.dut}
+gui_load_child_values {rkv_gpio_tb.gpio_if}
 
+
+set _session_group_1 Group3
+gui_sg_create "$_session_group_1"
+set Group3 "$_session_group_1"
+
+gui_sg_addsignal -group "$_session_group_1" { rkv_gpio_tb.dut.ECOREVNUM }
+
+set _session_group_2 $_session_group_1|
+append _session_group_2 AHB
+gui_sg_create "$_session_group_2"
+set Group3|AHB "$_session_group_2"
+
+gui_sg_addsignal -group "$_session_group_2" { rkv_gpio_tb.dut.HCLK rkv_gpio_tb.dut.HRESETn rkv_gpio_tb.dut.FCLK rkv_gpio_tb.dut.HSEL rkv_gpio_tb.dut.HREADY rkv_gpio_tb.dut.HTRANS rkv_gpio_tb.dut.HSIZE rkv_gpio_tb.dut.HWRITE rkv_gpio_tb.dut.HADDR rkv_gpio_tb.dut.HWDATA rkv_gpio_tb.dut.HREADYOUT rkv_gpio_tb.dut.HRESP rkv_gpio_tb.dut.HRDATA }
+
+gui_sg_move "$_session_group_2" -after "$_session_group_1" -pos 2 
+
+set _session_group_3 $_session_group_1|
+append _session_group_3 INTQ
+gui_sg_create "$_session_group_3"
+set Group3|INTQ "$_session_group_3"
+
+gui_sg_addsignal -group "$_session_group_3" { rkv_gpio_tb.dut.GPIOINT rkv_gpio_tb.dut.COMBINT }
+
+gui_sg_move "$_session_group_3" -after "$_session_group_1" -pos 1 
+
+set _session_group_4 $_session_group_1|
+append _session_group_4 PORT
+gui_sg_create "$_session_group_4"
+set Group3|PORT "$_session_group_4"
+
+gui_sg_addsignal -group "$_session_group_4" { rkv_gpio_tb.dut.PORTIN rkv_gpio_tb.dut.PORTOUT rkv_gpio_tb.dut.PORTEN rkv_gpio_tb.dut.PORTFUNC }
+
+set _session_group_5 AHB-IF
+gui_sg_create "$_session_group_5"
+set AHB-IF "$_session_group_5"
+
+gui_sg_addsignal -group "$_session_group_5" { rkv_gpio_tb.ahb_if.hclk rkv_gpio_tb.ahb_if.hresetn rkv_gpio_tb.ahb_if.hgrant rkv_gpio_tb.ahb_if.hrdata rkv_gpio_tb.ahb_if.hready rkv_gpio_tb.ahb_if.hresp rkv_gpio_tb.ahb_if.haddr rkv_gpio_tb.ahb_if.hsize rkv_gpio_tb.ahb_if.htrans rkv_gpio_tb.ahb_if.hwdata rkv_gpio_tb.ahb_if.hwrite rkv_gpio_tb.ahb_if.hburst rkv_gpio_tb.ahb_if.hbusreq rkv_gpio_tb.ahb_if.hlock rkv_gpio_tb.ahb_if.hprot rkv_gpio_tb.ahb_if.debug_hresp rkv_gpio_tb.ahb_if.debug_htrans rkv_gpio_tb.ahb_if.debug_hsize rkv_gpio_tb.ahb_if.debug_hburst rkv_gpio_tb.ahb_if.debug_xact rkv_gpio_tb.ahb_if.debug_status }
+
+set _session_group_6 GPIO-IF
+gui_sg_create "$_session_group_6"
+set GPIO-IF "$_session_group_6"
+
+gui_sg_addsignal -group "$_session_group_6" { rkv_gpio_tb.gpio_if.clk rkv_gpio_tb.gpio_if.fclk rkv_gpio_tb.gpio_if.rstn rkv_gpio_tb.gpio_if.portin rkv_gpio_tb.gpio_if.portout rkv_gpio_tb.gpio_if.porten rkv_gpio_tb.gpio_if.portfunc rkv_gpio_tb.gpio_if.gpioint rkv_gpio_tb.gpio_if.combint }
 
 # Global: Highlighting
 
@@ -108,6 +164,7 @@ gui_set_loading_session_type noSession
 
 
 # Hier 'Hier.1'
+gui_show_window -window ${Hier.1}
 gui_list_set_filter -id ${Hier.1} -list { {Package 1} {All 0} {Process 1} {VirtPowSwitch 0} {UnnamedProcess 1} {UDP 0} {Function 1} {Block 1} {SrsnAndSpaCell 0} {OVA Unit 1} {LeafScCell 1} {LeafVlgCell 1} {Interface 1} {LeafVhdCell 1} {$unit 1} {NamedBlock 1} {Task 1} {VlgPackage 1} {ClassDef 1} {VirtIsoCell 0} }
 gui_list_set_filter -id ${Hier.1} -text {*}
 gui_change_design -id ${Hier.1} -design Sim
@@ -116,28 +173,11 @@ gui_view_scroll -id ${Hier.1} -vertical -set 0
 gui_view_scroll -id ${Hier.1} -horizontal -set 0
 
 # Class 'Class.1'
-gui_show_window -window ${Class.1}
 gui_list_set_filter -id ${Class.1} -list { {OVM 1} {VMM 1} {All 1} {Object 1} {UVM 1} {RVM 1} }
-gui_list_set_filter -id ${Class.1} -text {*seq}
+gui_list_set_filter -id ${Class.1} -text {*}
 gui_change_design -id ${Class.1} -design Sim
-catch {gui_list_expand -id ${Class.1} {$class.uvm_void}}
-catch {gui_list_expand -id ${Class.1} {$class.uvm_object}}
-catch {gui_list_expand -id ${Class.1} {$class.uvm_transaction}}
-catch {gui_list_expand -id ${Class.1} {$class.uvm_sequence_item}}
-catch {gui_list_expand -id ${Class.1} {$class.uvm_sequence_base}}
-catch {gui_list_expand -id ${Class.1} {$class.\uvm_sequence#(uvm_pkg::uvm_reg_item,uvm_pkg::uvm_reg_item) }}
-catch {gui_list_expand -id ${Class.1} {$class.\uvm_reg_sequence#(uvm_pkg::uvm_sequence#(uvm_pkg::uvm_reg_item,uvm_pkg::uvm_reg_item)) }}
-catch {gui_list_expand -id ${Class.1} {$class.\uvm_sequence#(uvm_pkg::uvm_sequence_item,uvm_pkg::uvm_sequence_item) }}
-catch {gui_list_expand -id ${Class.1} {$class.rkv_gpio_base_element_sequence}}
-catch {gui_list_expand -id ${Class.1} {$class.rkv_gpio_base_virtual_sequence}}
-catch {gui_list_expand -id ${Class.1} {$class.\uvm_reg_sequence#(uvm_pkg::uvm_sequence#(uvm_pkg::uvm_sequence_item,uvm_pkg::uvm_sequence_item)) }}
-catch {gui_list_expand -id ${Class.1} {$class.uvm_reg_frontdoor}}
-catch { gui_list_select -id ${Class.1} {{$class.rkv_gpio_base_virtual_sequence} }}
-gui_view_scroll -id ${Class.1} -vertical -set 145
-gui_view_scroll -id ${Class.1} -horizontal -set 0
 
 # Member 'Member.1'
-gui_show_window -window ${Member.1}
 gui_list_set_filter -id ${Member.1} -list { {InternalMember 0} {RandMember 1} {All 0} {BaseMember 0} {PrivateMember 1} {LibBaseMember 0} {AutomaticMember 1} {VirtualMember 1} {PublicMember 1} {ProtectedMember 1} {OverRiddenMember 0} {InterfaceClassMember 1} {StaticMember 1} }
 gui_list_set_filter -id ${Member.1} -text {*}
 
@@ -147,19 +187,62 @@ gui_list_set_filter -id ${Data.1} -text {*}
 gui_list_show_data -id ${Data.1} {uvm_custom_install_recording}
 gui_view_scroll -id ${Data.1} -vertical -set 0
 gui_view_scroll -id ${Data.1} -horizontal -set 0
+gui_view_scroll -id ${Hier.1} -vertical -set 0
+gui_view_scroll -id ${Hier.1} -horizontal -set 0
 
 # Source 'Source.1'
 gui_src_value_annotate -id ${Source.1} -switch false
 gui_set_env TOGGLE::VALUEANNOTATE 0
-gui_open_source -id ${Source.1} ../seq_lib/rkv_gpio_base_virtual_sequence.sv -startline 19 -replace
-gui_view_scroll -id ${Source.1} -vertical -set 378
+gui_open_source -id ${Source.1}  -replace -active {uvm_pkg.\uvm_root::run_test } /opt/synopsys/vcs201809/etc/uvm-1.2/base/uvm_root.svh
+gui_view_scroll -id ${Source.1} -vertical -set 4305
 gui_src_set_reusable -id ${Source.1}
 # Warning: Class view not found.
+
+# View 'Wave.1'
+gui_wv_sync -id ${Wave.1} -switch false
+set groupExD [gui_get_pref_value -category Wave -key exclusiveSG]
+gui_set_pref_value -category Wave -key exclusiveSG -value {false}
+set origWaveHeight [gui_get_pref_value -category Wave -key waveRowHeight]
+gui_list_set_height -id Wave -height 25
+set origGroupCreationState [gui_list_create_group_when_add -wave]
+gui_list_create_group_when_add -wave -disable
+gui_wv_zoom_timerange -id ${Wave.1} 1515542 1516457
+gui_list_add_group -id ${Wave.1} -after {New Group} {Group3}
+gui_list_add_group -id ${Wave.1}  -after Group3 {Group3|PORT}
+gui_list_add_group -id ${Wave.1} -after Group3|PORT {Group3|INTQ}
+gui_list_add_group -id ${Wave.1} -after Group3|INTQ {Group3|AHB}
+gui_list_add_group -id ${Wave.1} -after {New Group} {AHB-IF}
+gui_list_add_group -id ${Wave.1} -after {New Group} {GPIO-IF}
+gui_list_select -id ${Wave.1} {rkv_gpio_tb.dut.ECOREVNUM }
+gui_seek_criteria -id ${Wave.1} {Any Edge}
+
+
+
+gui_set_env TOGGLE::DEFAULT_WAVE_WINDOW ${Wave.1}
+gui_set_pref_value -category Wave -key exclusiveSG -value $groupExD
+gui_list_set_height -id Wave -height $origWaveHeight
+if {$origGroupCreationState} {
+	gui_list_create_group_when_add -wave -enable
+}
+if { $groupExD } {
+ gui_msg_report -code DVWW028
+}
+gui_list_set_filter -id ${Wave.1} -list { {Buffer 1} {Input 1} {Others 1} {Linkage 1} {Output 1} {Parameter 1} {All 1} {Aggregate 1} {LibBaseMember 1} {Event 1} {Assertion 1} {Constant 1} {Interface 1} {BaseMembers 1} {Signal 1} {$unit 1} {Inout 1} {Variable 1} }
+gui_list_set_filter -id ${Wave.1} -text {*}
+gui_list_set_insertion_bar  -id ${Wave.1} -group GPIO-IF  -position in
+
+gui_view_scroll -id ${Wave.1} -vertical -set 0
+gui_show_grid -id ${Wave.1} -enable false
 # Restore toplevel window zorder
 # The toplevel window could be closed if it has no view/pane
+if {[gui_exist_window -window ${TopLevel.2}]} {
+	gui_set_active_window -window ${TopLevel.2}
+	gui_set_active_window -window ${Wave.1}
+}
 if {[gui_exist_window -window ${TopLevel.1}]} {
 	gui_set_active_window -window ${TopLevel.1}
 	gui_set_active_window -window ${Source.1}
+	gui_set_active_window -window ${Console.1}
 }
 #</Session>
 

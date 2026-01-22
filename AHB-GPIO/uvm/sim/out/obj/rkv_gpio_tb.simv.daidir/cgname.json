@@ -1,0 +1,92 @@
+{
+    "vcs_paramclassrepository": [
+        "vcs_paramclassrepository",
+        "hEeZs",
+        "module",
+        1
+    ],
+    "rkv_gpio_if": [
+        "rkv_gpio_if",
+        "EkmTv",
+        "module",
+        13
+    ],
+    "uvm_custom_install_verdi_recording": [
+        "uvm_custom_install_verdi_recording",
+        "EbjT3",
+        "module",
+        8
+    ],
+    "std": [
+        "std",
+        "reYIK",
+        "module",
+        2
+    ],
+    "uvm_pkg": [
+        "uvm_pkg",
+        "zr7M1",
+        "module",
+        3
+    ],
+    "lvc_ahb_pkg": [
+        "lvc_ahb_pkg",
+        "v1EvN",
+        "module",
+        9
+    ],
+    "_vcs_msglog": [
+        "_vcs_msglog",
+        "zQBzV",
+        "module",
+        4
+    ],
+    "uvm_custom_install_recording": [
+        "uvm_custom_install_recording",
+        "nhiwz",
+        "module",
+        6
+    ],
+    "_vcs_unit__3820934895": [
+        "_vcs_unit__3820934895",
+        "b4gw6",
+        "module",
+        5
+    ],
+    "cmsdk_ahb_gpio": [
+        "cmsdk_ahb_gpio",
+        "dQSH0",
+        "module",
+        14
+    ],
+    "_vcs_DPI_package": [
+        "_vcs_DPI_package",
+        "uM9F1",
+        "module",
+        7
+    ],
+    "rkv_gpio_pkg": [
+        "rkv_gpio_pkg",
+        "IkRqh",
+        "module",
+        10
+    ],
+    "rkv_gpio_tb": [
+        "rkv_gpio_tb",
+        "Vauea",
+        "module",
+        11
+    ],
+    "lvc_ahb_if": [
+        "lvc_ahb_if",
+        "mzJKG",
+        "module",
+        12
+    ],
+    "...MASTER...": [
+        "SIM",
+        "amcQw",
+        "module",
+        15
+    ]
+}

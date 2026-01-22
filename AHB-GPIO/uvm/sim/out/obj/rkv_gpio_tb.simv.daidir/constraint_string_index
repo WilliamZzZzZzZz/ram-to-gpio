@@ -1,0 +1,5 @@
+1 7 pin_num 1
+1 43 ../seq_lib/rkv_gpio_portout_set_virt_seq.sv 2
+1 8 pout_num 3
+1 6 pin_id 4
+1 41 ../seq_lib/rkv_gpio_interrupt_virt_seq.sv 5

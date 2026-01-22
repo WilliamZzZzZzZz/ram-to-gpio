@@ -12,8 +12,9 @@ class rkv_gpio_interrupt_virt_seq extends rkv_gpio_base_virtual_sequence;
         bit [3:0] pin_id;
         super.body();
         `uvm_info(get_type_name(), "Entered body...", UVM_LOW)
-        repeat(10) begin
-            pin_id = $urandom_range(0, 15);
+        repeat(50) begin
+            // pin_id = $urandom_range(0, 15);
+            std::randomize(pin_id);
             high_level_interrupt(pin_id);
         end
         `uvm_info(get_type_name(), "Exiting body...", UVM_LOW)
@@ -30,9 +31,14 @@ class rkv_gpio_interrupt_virt_seq extends rkv_gpio_base_virtual_sequence;
         vif.drive_portin(pin_dr);
         wait_cycles(2);
         //read INTSTATUS, it should be 1
-        rgm.INISTATUS.read(status, pin_rd);
+        get_intstatus(pin_rd, id);
         //compare
         compare_data(pin_dr, pin_rd);
+        `uvm_info(get_type_name(), $sformatf("before INTCLEAR: pin_id:%0d pin_dr:%b and pin_rd:%b", id, pin_dr, pin_rd), UVM_LOW)
+        //keep the pin=1, do INTCLEAR, it should keep 1
+        rgm.INTCLEAR.write(status, 1 << id);
+        compare_data(pin_dr, pin_rd);
+        `uvm_info(get_type_name(), $sformatf("after INTCLEAR: pin_id:%0d pin_dr:%b and pin_rd:%b", id, pin_dr, pin_rd), UVM_LOW)
     endtask
 endclass
 

@@ -98,8 +98,18 @@ class rkv_gpio_base_virtual_sequence extends uvm_sequence;
   task set_high_level_interrupt(bit[3:0] id);
     rgm.INTENSET.write(status, 1 << id);
     rgm.INTPOLSET.write(status, 1 << id);
-    rgm.INTTYPE.write(status, 0 << id);
+    rgm.INTTYPESET.write(status, 0 << id);
   endtask
+
+  task get_intstatus(output bit [15:0] bits, input int id);
+    bit temp_bits = 0;
+    rgm.INTSTATUS.read(status, bits);
+    if(id >= 0) begin
+      temp_bits = bits[id];
+      bits = 0;
+      bits[id] = temp_bits;
+    end
+  endtask  
 
 endclass
 

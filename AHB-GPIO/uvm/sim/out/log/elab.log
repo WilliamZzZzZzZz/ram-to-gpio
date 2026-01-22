@@ -1,0 +1,81 @@
+Command: vcs -full64 -ntb_opts uvm-1.2 -debug_acc+all -l out/log/elab.log -sim_res=1ps \
+-LDFLAGS -Wl,--no-as-needed -top rkv_gpio_tb -o out/obj/rkv_gpio_tb.simv
+Doing common elaboration 
+                         Chronologic VCS (TM)
+       Version O-2018.09-SP2_Full64 -- Thu Jan 22 22:54:37 2026
+               Copyright (c) 1991-2018 by Synopsys Inc.
+                         ALL RIGHTS RESERVED
+
+This program is proprietary and confidential information of Synopsys Inc.
+and may be used and disclosed only as authorized in a license agreement
+controlling such use and disclosure.
+
+Top Level Modules:
+       uvm_custom_install_recording
+       uvm_custom_install_verdi_recording
+       rkv_gpio_tb
+TimeScale is 1 ps / 1 ps
+
+Warning-[PCWM-W] Port connection width mismatch
+../tb/rkv_gpio_tb.sv, 14
+"cmsdk_ahb_gpio dut( .HCLK (rkv_gpio_tb.ahb_if.hclk),  .HRESETn (rkv_gpio_tb.ahb_if.hresetn),  .FCLK (rkv_gpio_tb.ahb_if.hclk),  .HSEL (1'b1),  .HREADY (rkv_gpio_tb.ahb_if.hready),  .HTRANS (rkv_gpio_tb.ahb_if.htrans),  .HSIZE (rkv_gpio_tb.ahb_if.hsize),  .HWRITE (rkv_gpio_tb.ahb_if.hwrite),  .HADDR (rkv_gpio_tb.ahb_if.haddr[11:0]),  .HWDATA (rkv_gpio_tb.ahb_if.hwdata),  .ECOREVNUM (4'b0110),  .PORTIN (rkv_gpio_tb.gpio_if.portin),  .HREADYOUT (rkv_gpio_tb.ahb_if.hready),  .HRESP (rkv_gpio_tb.ahb_if.hresp),  .HRDATA (rkv_gpio_tb.ahb_if.hrdata),  .PORTOUT (rkv_gpio_tb.gpio_if.portout),  .PORTEN (rkv_gpio_tb.gpio_if.porten),  .PORTFUNC (rkv_gpio_tb.gpio_if.portfunc),  .GPIOINT (rkv_gpio_tb.gpio_if.gpioint),  .COMBINT (rkv_gpio_tb.gpio_if.combint));"
+  The following 64-bit expression is connected to 32-bit port "HWDATA" of 
+  module "cmsdk_ahb_gpio", instance "dut".
+  Expression: rkv_gpio_tb.ahb_if.hwdata
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+../tb/rkv_gpio_tb.sv, 14
+"cmsdk_ahb_gpio dut( .HCLK (rkv_gpio_tb.ahb_if.hclk),  .HRESETn (rkv_gpio_tb.ahb_if.hresetn),  .FCLK (rkv_gpio_tb.ahb_if.hclk),  .HSEL (1'b1),  .HREADY (rkv_gpio_tb.ahb_if.hready),  .HTRANS (rkv_gpio_tb.ahb_if.htrans),  .HSIZE (rkv_gpio_tb.ahb_if.hsize),  .HWRITE (rkv_gpio_tb.ahb_if.hwrite),  .HADDR (rkv_gpio_tb.ahb_if.haddr[11:0]),  .HWDATA (rkv_gpio_tb.ahb_if.hwdata),  .ECOREVNUM (4'b0110),  .PORTIN (rkv_gpio_tb.gpio_if.portin),  .HREADYOUT (rkv_gpio_tb.ahb_if.hready),  .HRESP (rkv_gpio_tb.ahb_if.hresp),  .HRDATA (rkv_gpio_tb.ahb_if.hrdata),  .PORTOUT (rkv_gpio_tb.gpio_if.portout),  .PORTEN (rkv_gpio_tb.gpio_if.porten),  .PORTFUNC (rkv_gpio_tb.gpio_if.portfunc),  .GPIOINT (rkv_gpio_tb.gpio_if.gpioint),  .COMBINT (rkv_gpio_tb.gpio_if.combint));"
+  The following 2-bit expression is connected to 1-bit port "HRESP" of module 
+  "cmsdk_ahb_gpio", instance "dut".
+  Expression: rkv_gpio_tb.ahb_if.hresp
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+../tb/rkv_gpio_tb.sv, 14
+"cmsdk_ahb_gpio dut( .HCLK (rkv_gpio_tb.ahb_if.hclk),  .HRESETn (rkv_gpio_tb.ahb_if.hresetn),  .FCLK (rkv_gpio_tb.ahb_if.hclk),  .HSEL (1'b1),  .HREADY (rkv_gpio_tb.ahb_if.hready),  .HTRANS (rkv_gpio_tb.ahb_if.htrans),  .HSIZE (rkv_gpio_tb.ahb_if.hsize),  .HWRITE (rkv_gpio_tb.ahb_if.hwrite),  .HADDR (rkv_gpio_tb.ahb_if.haddr[11:0]),  .HWDATA (rkv_gpio_tb.ahb_if.hwdata),  .ECOREVNUM (4'b0110),  .PORTIN (rkv_gpio_tb.gpio_if.portin),  .HREADYOUT (rkv_gpio_tb.ahb_if.hready),  .HRESP (rkv_gpio_tb.ahb_if.hresp),  .HRDATA (rkv_gpio_tb.ahb_if.hrdata),  .PORTOUT (rkv_gpio_tb.gpio_if.portout),  .PORTEN (rkv_gpio_tb.gpio_if.porten),  .PORTFUNC (rkv_gpio_tb.gpio_if.portfunc),  .GPIOINT (rkv_gpio_tb.gpio_if.gpioint),  .COMBINT (rkv_gpio_tb.gpio_if.combint));"
+  The following 64-bit expression is connected to 32-bit port "HRDATA" of 
+  module "cmsdk_ahb_gpio", instance "dut".
+  Expression: rkv_gpio_tb.ahb_if.hrdata
+  	use +lint=PCWM for more details
+
+Starting vcs inline pass...
+12 modules and 0 UDP read.
+recompiling package vcs_paramclassrepository
+recompiling package uvm_pkg
+recompiling package _vcs_msglog
+recompiling module uvm_custom_install_recording
+recompiling package _vcs_DPI_package
+recompiling module uvm_custom_install_verdi_recording
+recompiling package lvc_ahb_pkg
+recompiling package rkv_gpio_pkg
+recompiling module rkv_gpio_tb
+recompiling module lvc_ahb_if
+recompiling module rkv_gpio_if
+recompiling module cmsdk_ahb_gpio
+All of 12 modules done
+make[1]: Entering directory '/home/host/Desktop/RAM-To-GPIO/ram-to-gpio/AHB-GPIO/uvm/sim/csrc' \
+
+rm -f _csrc*.so pre_vcsobj_*.so share_vcsobj_*.so
+g++ -w  -pipe -DVCSMX -DUVM_DPI_DO_TYPE_CHECK -fPIC -O -I/opt/synopsys/vcs201809/include \
+-c /opt/synopsys/vcs201809/etc/uvm-1.2/dpi/uvm_dpi.cc
+g++ -w  -pipe -DVCSMX -DUVM_DPI_DO_TYPE_CHECK -fPIC -O -I/opt/synopsys/vcs201809/include \
+-c /opt/synopsys/vcs201809/etc/uvm-1.2/verdi/dpi/uvm_verdi_dpi.cpp
+if [ -x ../out/obj/rkv_gpio_tb.simv ]; then chmod -x ../out/obj/rkv_gpio_tb.simv; \
+fi
+g++  -o ../out/obj/rkv_gpio_tb.simv -no-pie    -Wl,-rpath-link=./ -Wl,-rpath='$ORIGIN'/rkv_gpio_tb.simv.daidir/ \
+-Wl,-rpath=./rkv_gpio_tb.simv.daidir/ -Wl,-rpath='$ORIGIN'/rkv_gpio_tb.simv.daidir//scsim.db.dir \
+-Wl,--no-as-needed -rdynamic -Wl,-rpath=/opt/synopsys/vcs201809/linux64/lib -L/opt/synopsys/vcs201809/linux64/lib \
+uvm_dpi.o uvm_verdi_dpi.o   objs/amcQw_d.o   _57059_archive_1.so  SIM_l.o      rmapats_mop.o \
+rmapats.o rmar.o rmar_nd.o  rmar_llvm_0_1.o rmar_llvm_0_0.o          -lnuma -lzerosoft_rt_stubs \
+-lerrorinf -lsnpsmalloc -lvfs    -lvcsnew -lsimprofile -lvirsim -luclinative /opt/synopsys/vcs201809/linux64/lib/vcs_tls.o \
+-Wl,-whole-archive -lvcsucli -Wl,-no-whole-archive       ./../out/obj/rkv_gpio_tb.simv.daidir/vc_hdrs.o \
+_vcs_pli_stub_.o   /opt/synopsys/vcs201809/linux64/lib/vcs_save_restore_new.o /opt/synopsys/verdi201809/share/PLI/VCS/LINUX64/pli.a \
+-ldl  -lc -lm -lpthread -ldl 
+../out/obj/rkv_gpio_tb.simv up to date
+make[1]: Leaving directory '/home/host/Desktop/RAM-To-GPIO/ram-to-gpio/AHB-GPIO/uvm/sim/csrc' \
+
+CPU time: 5.293 seconds to compile + .153 seconds to elab + .553 seconds to link
