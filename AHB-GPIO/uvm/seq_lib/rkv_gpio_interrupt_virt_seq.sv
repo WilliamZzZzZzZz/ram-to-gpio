@@ -21,29 +21,25 @@ class rkv_gpio_interrupt_virt_seq extends rkv_gpio_base_virtual_sequence;
     endtask
 
     task high_level_interrupt(bit[3:0] id);
-        bit [15:0] pin_dr, pin_rd;
-        //clear
-        rgm.INTENCLR.write(status, 1 << id);
-        //configure to high-level-interrupt    
+        bit [15:0] pin_dr, pin_rd; 
         set_high_level_interrupt(id);
         //assert pin to 1
         pin_dr[id] = 1;
         vif.drive_portin(pin_dr);
         wait_cycles(2);
-        //read INTSTATUS, it should be 1
         get_intstatus(pin_rd, id);
-        //compare
         compare_data(pin_dr, pin_rd);
-        `uvm_info(get_type_name(), $sformatf("Pin->1:pin_id is: %d pin_dr is: %b pin_rd is: %b", id, pin_dr, pin_rd), UVM_LOW);
         //keep the pin=1, do INTCLEAR, it should keep 1
         rgm.INTCLEAR.write(status, 1 << id);
+        get_intstatus(pin_rd, id);
         compare_data(pin_dr, pin_rd);
+        //deassert pin to 0, do INTCLEAR, it should be 0
         pin_dr[id] = 0;
         vif.drive_portin(pin_dr);
         wait_cycles(2);
+        rgm.INTCLEAR.write(status, 1 << id);
         get_intstatus(pin_rd, id);
         compare_data(pin_dr, pin_rd);
-        `uvm_info(get_type_name(), $sformatf("Pin->0:pin_id is: %d pin_dr is: %b pin_rd is: %b", id, pin_dr, pin_rd), UVM_LOW);
     endtask
 endclass
 
