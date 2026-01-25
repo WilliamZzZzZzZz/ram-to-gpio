@@ -5,6 +5,7 @@
 `include "rkv_gpio_base_virtual_sequence.sv"
 `include "rkv_gpio_portout_set_virt_seq.sv"
 `include "rkv_gpio_interrupt_virt_seq.sv"
+`include "rkv_gpio_masked_virt_seq.sv"
 
 
 `endif
