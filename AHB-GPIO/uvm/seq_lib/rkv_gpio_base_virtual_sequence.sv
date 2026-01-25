@@ -109,10 +109,17 @@ class rkv_gpio_base_virtual_sequence extends uvm_sequence;
     rgm.INTTYPECLR.write(status, 1 << id);
   endtask 
 
-  task set_rising_level_interrupt(bit[3:0] id);
+  task set_rising_edge_interrupt(bit[3:0] id);
     rgm.INTENCLR.write(status, 1 << id);
     rgm.INTENSET.write(status, 1 << id);
     rgm.INTPOLSET.write(status, 1 << id);
+    rgm.INTTYPESET.write(status, 1 << id);    
+  endtask 
+
+  task set_falling_edge_interrupt(bit[3:0] id);
+    rgm.INTENCLR.write(status, 1 << id);
+    rgm.INTENSET.write(status, 1 << id);
+    rgm.INTPOLCLR.write(status, 1 << id);
     rgm.INTTYPESET.write(status, 1 << id);    
   endtask 
 
