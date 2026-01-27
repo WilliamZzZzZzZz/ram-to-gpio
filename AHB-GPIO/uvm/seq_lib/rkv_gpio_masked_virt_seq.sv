@@ -9,7 +9,6 @@ class rkv_gpio_masked_virt_seq extends rkv_gpio_base_virtual_sequence;
     endfunction
 
     virtual task body();
-        bit [31:0] addr, data;
         bit [3:0] pin_id;
         super.body();
         `uvm_info(get_type_name(), "Entered...", UVM_LOW)
@@ -24,11 +23,10 @@ class rkv_gpio_masked_virt_seq extends rkv_gpio_base_virtual_sequence;
         bit [15:0]  initial_val, write_val, final_val;
         bit [7:0]   mask_byte;
         bit [31:0]  target_addr;
+        bit [31:0]  addr, data;
 
         uvm_status_e status;
-        uvm_reg_map map;
 
-        map = rgm.get_default_map();
         initial_val = 16'hFFFF;
         write_val   = 16'h0000;
         mask_byte   = 8'h01;
@@ -42,8 +40,11 @@ class rkv_gpio_masked_virt_seq extends rkv_gpio_base_virtual_sequence;
         else begin              //uppper-8bits
             target_addr = 32'h800 + (mask_byte << 2);   //0x800 + mask_byte*4
         end
-        map.write(status, target_addr, write_val);
-        rgm.DATA.read(status, final_val);
+
+        `uvm_do_with(single_write, {addr == target_addr;
+                                    data == write_val;})
+        `uvm_do_with(single_read, {addr == RKV_ROUTER_REG_ADDR_DATA;})
+        final_val = single_read.data;
         
         //compare 0-bit
         if(final_val[0] == 0) begin
