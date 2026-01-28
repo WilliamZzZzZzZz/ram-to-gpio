@@ -12,11 +12,9 @@ class rkv_gpio_masked_virt_seq extends rkv_gpio_base_virtual_sequence;
         bit [31:0] addr, data;
         super.body();
         `uvm_info(get_type_name(), "Entered...", UVM_LOW)
-        repeat(20) begin
-            //randomize inputs
+        repeat(50) begin
             masked_access_protection();
         end
-          
         `uvm_info(get_type_name(), "Exiting...", UVM_LOW)
     endtask
 
@@ -28,17 +26,20 @@ class rkv_gpio_masked_virt_seq extends rkv_gpio_base_virtual_sequence;
         uvm_status_e status;  
 
         //randomize inputs
-        initial_val = $urandom_range(0, 16'hFFFF);
-        write_val   = $urandom_range(0, 16'hFFFF);
-        mask_byte   = $urandom_range(0, 8'hFF);
-        //set expected value
-        expected_val[7:0]   = (write_val[7:0] & mask_byte) | (initial_val[7:0] & ~mask_byte);
-        expected_val[15:8]  = initial_val[15:8];
-        //calculate address
+        type_sel    = $urandom();
+        initial_val = $urandom_range(16'h0000, 16'hFFFF);
+        write_val   = $urandom_range(16'h0000, 16'hFFFF);
+        mask_byte   = $urandom_range(8'h00, 8'hFF);
+
+        //set expected value and calculate address
         if(type_sel == 0) begin //lower-8bits
+            expected_val[7:0]   = (write_val[7:0] & mask_byte) | (initial_val[7:0] & ~mask_byte);
+            expected_val[15:8]  = initial_val[15:8];
             target_addr = 32'h400 + (mask_byte << 2);   //0x400 + mask_byte*4
         end
         else begin              //uppper-8bits
+            expected_val[15:8]   = (write_val[15:8] & mask_byte) | (initial_val[15:8] & ~mask_byte);
+            expected_val[7:0]  = initial_val[7:0];
             target_addr = 32'h800 + (mask_byte << 2);   //0x800 + mask_byte*4
         end
         //process data
@@ -48,10 +49,14 @@ class rkv_gpio_masked_virt_seq extends rkv_gpio_base_virtual_sequence;
                                     data == write_val;})
         `uvm_do_with(single_read, {addr == RKV_ROUTER_REG_ADDR_DATAOUT;})
         final_val = single_read.data;
-        
         //do compare
         if(final_val == expected_val) begin
-            `uvm_info(get_type_name(), "every bits' masked-access PASSED!",UVM_LOW)
+            if(type_sel == 0) begin
+                `uvm_info(get_type_name(), "lower-8bits' masked-access PASSED!",UVM_LOW)
+            end 
+            else begin
+                `uvm_info(get_type_name(), "upper-8bits' masked-access PASSED!",UVM_LOW)
+            end
         end
         else begin
             `uvm_error(get_type_name(), $sformatf("FAILED: expected_val: 0x%04X, actual_val: 0x%04X", expected_val, final_val))
@@ -61,12 +66,11 @@ class rkv_gpio_masked_virt_seq extends rkv_gpio_base_virtual_sequence;
                end 
             end
         end
-        `uvm_info(get_type_name(), $sformatf("Initial Value:    %b", initial_val), UVM_LOW)
-        `uvm_info(get_type_name(), $sformatf("Write Value:      %b", write_val), UVM_LOW)
-        `uvm_info(get_type_name(), $sformatf("Mask Byte:        %b", mask_byte), UVM_LOW)
-        `uvm_info(get_type_name(), $sformatf("Expected Value:   %b", expected_val), UVM_LOW)
-        `uvm_info(get_type_name(), $sformatf("Final Value:      %b", final_val), UVM_LOW)
-
+        // `uvm_info(get_type_name(), $sformatf("Initial Value:    %b", initial_val), UVM_LOW)
+        // `uvm_info(get_type_name(), $sformatf("Write Value:      %b", write_val), UVM_LOW)
+        // `uvm_info(get_type_name(), $sformatf("Mask Byte:        %b", mask_byte), UVM_LOW)
+        // `uvm_info(get_type_name(), $sformatf("Expected Value:   %b", expected_val), UVM_LOW)
+        // `uvm_info(get_type_name(), $sformatf("Final Value:      %b", final_val), UVM_LOW)
     endtask
 
 endclass
