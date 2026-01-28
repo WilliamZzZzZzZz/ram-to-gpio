@@ -682,6 +682,114 @@ class ral_reg_rkv_gpio_INT_STATUS_CLEAR extends uvm_reg;
 
 endclass : ral_reg_rkv_gpio_INT_STATUS_CLEAR
 
+class ral_reg_rkv_gpio_MASKLOWBYTE extends uvm_reg;
+    `uvm_object_utils(ral_reg_rkv_gpio_MASKLOWBYTE)
+
+      uvm_reg_field Reserved_31_8;
+      rand uvm_reg_field DATA;
+
+    // Function: coverage
+    //
+    covergroup cg_vals;
+      DATA   : coverpoint DATA.value[7:0];
+    endgroup
+
+    // Function: sample
+    //
+    function void sample(
+        uvm_reg_data_t  data,
+        uvm_reg_data_t  byte_en,
+        bit             is_read,
+        uvm_reg_map     map
+    );
+        super.sample(data,byte_en,is_read,map);
+        sample_values();
+    endfunction
+
+
+    // Function: sample_values
+    //
+    virtual function void sample_values();
+        super.sample_values();
+        if(get_coverage(UVM_CVR_FIELD_VALS))
+            cg_vals.sample();
+    endfunction
+
+
+    function new(string name = "ral_reg_rkv_gpio_MASKLOWBYTE");
+        super.new(name,32,build_coverage(UVM_CVR_FIELD_VALS));
+        add_coverage(build_coverage(UVM_CVR_FIELD_VALS));
+        if(has_coverage(UVM_CVR_FIELD_VALS))
+            cg_vals = new();
+    endfunction: new
+
+    virtual function void build();
+        Reserved_31_8 = uvm_reg_field::type_id::create("Reserved_31_8");
+        Reserved_31_8.configure(this, 24 , 8 , "RO", 1, 0, 1, 0, 1);
+
+        DATA = uvm_reg_field::type_id::create("DATA");
+        DATA.configure(this, 8 , 0 , "RW", 0, 0, 1, 0, 1);
+
+    endfunction: build
+
+endclass : ral_reg_rkv_gpio_MASKLOWBYTE
+
+class ral_reg_rkv_gpio_MASKHIGHBYTE extends uvm_reg;
+    `uvm_object_utils(ral_reg_rkv_gpio_MASKHIGHBYTE)
+
+      uvm_reg_field Reserved_31_16;
+      uvm_reg_field Reserved_7_0;
+      rand uvm_reg_field DATA;
+
+    // Function: coverage
+    //
+    covergroup cg_vals;
+      DATA   : coverpoint DATA.value[7:0];
+    endgroup
+
+    // Function: sample
+    //
+    function void sample(
+        uvm_reg_data_t  data,
+        uvm_reg_data_t  byte_en,
+        bit             is_read,
+        uvm_reg_map     map
+    );
+        super.sample(data,byte_en,is_read,map);
+        sample_values();
+    endfunction
+
+
+    // Function: sample_values
+    //
+    virtual function void sample_values();
+        super.sample_values();
+        if(get_coverage(UVM_CVR_FIELD_VALS))
+            cg_vals.sample();
+    endfunction
+
+
+    function new(string name = "ral_reg_rkv_gpio_MASKHIGHBYTE");
+        super.new(name,32,build_coverage(UVM_CVR_FIELD_VALS));
+        add_coverage(build_coverage(UVM_CVR_FIELD_VALS));
+        if(has_coverage(UVM_CVR_FIELD_VALS))
+            cg_vals = new();
+    endfunction: new
+
+    virtual function void build();
+        Reserved_31_16 = uvm_reg_field::type_id::create("Reserved_31_16");
+        Reserved_31_16.configure(this, 16 , 16 , "RO", 1, 0, 1, 0, 1);
+
+        Reserved_7_0 = uvm_reg_field::type_id::create("Reserved_7_0");
+        Reserved_7_0.configure(this, 8 , 0 , "RO", 1, 0, 1, 0, 1);
+
+        DATA = uvm_reg_field::type_id::create("DATA");
+        DATA.configure(this, 8 , 8 , "RW", 0, 0, 1, 0, 1);
+
+    endfunction: build
+
+endclass : ral_reg_rkv_gpio_MASKHIGHBYTE
+
 class ral_reg_rkv_gpio_INTCLEAR extends uvm_reg;
     `uvm_object_utils(ral_reg_rkv_gpio_INTCLEAR)
 
@@ -1404,7 +1512,9 @@ class rkv_gpio_rgm extends uvm_reg_block;
     // alias (handle only)
     rand ral_reg_rkv_gpio_INT_STATUS_CLEAR INTSTATUS;
     rand ral_reg_rkv_gpio_INT_STATUS_CLEAR INTCLEAR;
-    rand ral_reg_rkv_gpio_INTCLEAR INTCLEAR2;
+    //MASKLOWBYTE and MASKHIGHBYTE array
+    rand ral_reg_rkv_gpio_MASKLOWBYTE MASKLOWBYTE[8'hFF:0];
+    rand ral_reg_rkv_gpio_MASKHIGHBYTE MASKHIGHBYTE[8'hFF:0];
     ral_reg_rkv_gpio_PID4 PID4;
     ral_reg_rkv_gpio_PID5 PID5;
     ral_reg_rkv_gpio_PID6 PID6;
@@ -1470,9 +1580,16 @@ class rkv_gpio_rgm extends uvm_reg_block;
         // alias
         this.INTSTATUS = this.INT_STATUS_CLEAR;
         this.INTCLEAR = this.INT_STATUS_CLEAR;
-        this.INTCLEAR2 = ral_reg_rkv_gpio_INTCLEAR::type_id::create("INTCLEAR2",,get_full_name());
-        this.INTCLEAR2.configure(this, null, "");
-        this.INTCLEAR2.build();
+        foreach(this.MASKLOWBYTE[i]) begin
+          this.MASKLOWBYTE[i] = ral_reg_rkv_gpio_MASKLOWBYTE::type_id::create($sformatf("MASKLOWBYTE[%0d]", i),,get_full_name());
+          this.MASKLOWBYTE[i].configure(this, null, "");
+          this.MASKLOWBYTE[i].build();
+        end
+        foreach(this.MASKHIGHBYTE[i]) begin
+          this.MASKHIGHBYTE[i] = ral_reg_rkv_gpio_MASKHIGHBYTE::type_id::create($sformatf("MASKHIGHBYTE[%0d]", i),,get_full_name());
+          this.MASKHIGHBYTE[i].configure(this, null, "");
+          this.MASKHIGHBYTE[i].build();
+        end
         this.PID4 = ral_reg_rkv_gpio_PID4::type_id::create("PID4",,get_full_name());
         this.PID4.configure(this, null, "");
         this.PID4.build();
@@ -1527,7 +1644,8 @@ class rkv_gpio_rgm extends uvm_reg_block;
         this.map.add_reg(this.INTPOLSET, `UVM_REG_ADDR_WIDTH'h0030, "RW", 0);
         this.map.add_reg(this.INTPOLCLR, `UVM_REG_ADDR_WIDTH'h0034, "RW", 0);
         this.map.add_reg(this.INT_STATUS_CLEAR, `UVM_REG_ADDR_WIDTH'h0038, "RW", 0);
-        this.map.add_reg(this.INTCLEAR2, `UVM_REG_ADDR_WIDTH'h0038, "RW", 0);
+        foreach(this.MASKLOWBYTE[i]) this.map.add_reg(this.MASKLOWBYTE[i], `UVM_REG_ADDR_WIDTH'h0400 + (i << 2), "RW", 0);
+        foreach(this.MASKHIGHBYTE[i]) this.map.add_reg(this.MASKHIGHBYTE[i], `UVM_REG_ADDR_WIDTH'h0800 + (i << 2), "RW", 0);
         this.map.add_reg(this.PID4, `UVM_REG_ADDR_WIDTH'h0FD0, "RO", 0);
         this.map.add_reg(this.PID5, `UVM_REG_ADDR_WIDTH'h0FD4, "RO", 0);
         this.map.add_reg(this.PID6, `UVM_REG_ADDR_WIDTH'h0FD8, "RO", 0);

@@ -13,6 +13,12 @@ parameter bit [15:0] RKV_ROUTER_REG_ADDR_INTPOLSET    = 16'h0030;
 parameter bit [15:0] RKV_ROUTER_REG_ADDR_INTPOLCLR    = 16'h0034; 
 parameter bit [15:0] RKV_ROUTER_REG_ADDR_INTSTATUS    = 16'h0038; 
 parameter bit [15:0] RKV_ROUTER_REG_ADDR_INTCLEAR     = 16'h0038; 
+parameter bit [15:0] RKV_ROUTER_REG_ADDR_MASKLOWBYTE  = 16'h0400;
+parameter bit [15:0] RKV_ROUTER_REG_ADDR_MASKHIGHBYTE = 16'h0800;
+
+typedef enum bit {ACTIVE_LOW, ACTIVE_HIGH} RKV_INT_POL_T;
+typedef enum bit {ACTIVE_LEVEL, ACTIVE_EDGE} RKV_INT_TYPE_T;
+typedef enum bit {CLK_HCLK, CLK_FCLK} RKV_CLK_T;
 
 
 `endif//RKV_GPIO_DEFINES_SV
