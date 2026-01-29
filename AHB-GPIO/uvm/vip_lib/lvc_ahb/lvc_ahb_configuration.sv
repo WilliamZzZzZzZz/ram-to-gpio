@@ -3,12 +3,12 @@
 
 
 class lvc_ahb_configuration extends uvm_object;
-  `uvm_object_utils_begin(lvc_ahb_configuration)
-  `uvm_object_utils_end
+    `uvm_object_utils_begin(lvc_ahb_configuration)
+    `uvm_object_utils_end
 
-  function new(string name = "lvc_ahb_configuration");
-    super.new(name);
-  endfunction
+    function new(string name = "lvc_ahb_configuration");
+        super.new(name);
+    endfunction
 
 
 endclass

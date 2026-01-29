@@ -3,14 +3,14 @@
 
 class ahb_agent_configuration extends uvm_object;
 
-    bit is_active = 1;
+        bit is_active = 1;
 
-    `uvm_object_utils_begin(ahb_agent_configuration)
-    `uvm_object_utils_end
+        `uvm_object_utils_begin(ahb_agent_configuration)
+        `uvm_object_utils_end
 
-    function new(string name = "ahb_agent_configuration");
-        super.new(name);
-    endfunction
+        function new(string name = "ahb_agent_configuration");
+                super.new(name);
+        endfunction
 
 endclass
 

@@ -3,19 +3,19 @@
 
 class ahbram_reg_adapter extends uvm_reg_adapter;
 
-    `uvm_object_utils(ahbram_reg_adapter)
+        `uvm_object_utils(ahbram_reg_adapter)
 
-    function new(string name = "ahbram_reg_adapter");
-        super.new(name);
-    endfunction
+        function new(string name = "ahbram_reg_adapter");
+                super.new(name);
+        endfunction
 
-    function uvm_sequence_item reg2bus(const ref uvm_reg_bus_op rw);
+        function uvm_sequence_item reg2bus(const ref uvm_reg_bus_op rw);
 
-    endfunction
+        endfunction
 
-    function void bus2reg(uvm_sequence_item bus_item, ref uvm_reg_bus_op rw);
+        function void bus2reg(uvm_sequence_item bus_item, ref uvm_reg_bus_op rw);
 
-    endfunction
+        endfunction
 endclass
 
 `endif
