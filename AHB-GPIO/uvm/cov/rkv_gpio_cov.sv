@@ -26,11 +26,11 @@ class rkv_gpio_cov extends rkv_gpio_subscriber;
 
     covergroup cg_interrupt_type;
         option.name = "interrupt_type_covergroup";
-        option.pre_instance = 1;
+        option.per_instance = 1;
         INT_TYPE: coverpoint current_int_type {
             bins high_level     = {HIGH_LEVEL};
             bins low_level      = {LOW_LEVEL};
-            bins rising_level   = {RISING_EDGE};
+            bins rising_edge   = {RISING_EDGE};
             bins falling_edge   = {FALLING_EDGE};
         }
 
@@ -56,34 +56,49 @@ class rkv_gpio_cov extends rkv_gpio_subscriber;
   endfunction
 
   function void write(lvc_ahb_transaction tr);
-    if(tr.xact_type == lvc_ahb_transaction::WRITE) begin
+    if(tr.xact_type == WRITE) begin
         case(tr.addr[15:0])
             RKV_ROUTER_REG_ADDR_INTENSET: begin
-                inten_val = tr.data[15:0];
+                inten_val = tr.data[0][15:0];
                 inten_updated = 1;
                 extract_pin_id();
             end
             RKV_ROUTER_REG_ADDR_INTTYPESET: begin
-                inttype_val = tr.data[15:0];
+                inttype_val = tr.data[0][15:0];
                 inttype_updated = 1;
+                try_sample();
+            end
+            RKV_ROUTER_REG_ADDR_INTTYPECLR: begin
+                inttype_val = inttype_val & ~tr.data[0][15:0];
+                inttype_updated = 1;
+                try_sample();
             end
             RKV_ROUTER_REG_ADDR_INTPOLSET: begin
-                intpol_val = tr.data[15:0];
+                intpol_val = tr.data[0][15:0];
                 intpol_updated = 1;
-                //whether 3 reg have updated
-                if(inten_updated && inttype_updated && intpol_updated) 
-                    calculate_int_type();
-                    cg_interrupt_type.sample();
-                    `uvm_info(get_type_name(), $sformatf("Sampled: pin_id=%0d, int_type=%s", pin_id, current_int_type.name()), UVM_MEDIUM)
-                    //reset status
-                    inten_updated   = 0;
-                    inttype_updated = 0;
-                    intpol_updated  = 0;
+                try_sample();
             end
+            RKV_ROUTER_REG_ADDR_INTPOLCLR: begin
+                intpol_val = intpol_val & ~tr.data[0][15:0];
+                intpol_updated = 1;
+                try_sample();
+            end            
             RKV_ROUTER_REG_ADDR_INTCLEAR: begin
-                intclear_val = tr.data[15:0];
+                intclear_val = tr.data[0][15:0];
             end
         endcase
+    end
+  endfunction
+
+  function void try_sample();
+    if(inten_updated && inttype_updated && intpol_updated) begin
+      calculate_int_type();
+      cg_interrupt_type.sample();
+      `uvm_info(get_type_name(), $sformatf("Sampled: pin_id=%0d, int_type=%s", pin_id, current_int_type.name()), UVM_MEDIUM)
+      //reset status
+      inten_updated   = 0;
+      inttype_updated = 0;
+      intpol_updated  = 0;
     end
   endfunction
 
@@ -91,7 +106,7 @@ class rkv_gpio_cov extends rkv_gpio_subscriber;
   function void extract_pin_id();
     for(int i = 0; i < 16; i++) begin
         if(inten_val[i]) begin
-            pin_id = i;
+            pin_id = i[3:0];
             return;
         end
     end

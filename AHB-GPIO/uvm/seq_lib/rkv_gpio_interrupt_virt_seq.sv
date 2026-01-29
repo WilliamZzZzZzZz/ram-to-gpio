@@ -12,7 +12,7 @@ class rkv_gpio_interrupt_virt_seq extends rkv_gpio_base_virtual_sequence;
         bit [3:0] pin_id;
         super.body();
         `uvm_info(get_type_name(), "Entered body...", UVM_LOW)
-        repeat(20) begin
+        repeat(100) begin
             std::randomize(pin_id);
             high_level_interrupt(pin_id);
             low_level_interrupt(pin_id);
