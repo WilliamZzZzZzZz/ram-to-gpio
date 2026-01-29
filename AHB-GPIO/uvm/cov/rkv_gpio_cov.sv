@@ -6,10 +6,10 @@ class rkv_gpio_cov extends rkv_gpio_subscriber;
   `uvm_component_utils(rkv_gpio_cov)
 
     typedef enum bit [1:0] {
-        HIGH_LEVEL    = 2'b00;
-        LOW_LEVEL     = 2'b01;
-        RISING_EDGE   = 2'b10;
-        FALLING_EDGE  = 2'b11;
+        HIGH_LEVEL    = 2'b00,
+        LOW_LEVEL     = 2'b01,
+        RISING_EDGE   = 2'b10,
+        FALLING_EDGE  = 2'b11
     } int_type_e;
 
     bit [15:0] inten_val;
@@ -17,12 +17,16 @@ class rkv_gpio_cov extends rkv_gpio_subscriber;
     bit [15:0] intpol_val;
     bit [15:0] intstatus_val;
     bit [15:0] intclear_val;
-    bti [3:0]  pin_id;
+    bit [3:0]  pin_id;
     int_type_e current_int_type;
+
+    bit inten_updated;
+    bit inttype_updated;
+    bit intpol_updated;
 
     covergroup cg_interrupt_type;
         option.name = "interrupt_type_covergroup";
-
+        option.pre_instance = 1;
         INT_TYPE: coverpoint current_int_type {
             bins high_level     = {HIGH_LEVEL};
             bins low_level      = {LOW_LEVEL};
@@ -42,6 +46,9 @@ class rkv_gpio_cov extends rkv_gpio_subscriber;
   function new (string name = "rkv_gpio_cov", uvm_component parent);
     super.new(name, parent);
     cg_interrupt_type = new();
+    inten_updated   = 0;
+    inttype_updated = 0;
+    intpol_updated  = 0;
   endfunction
 
   function void build_phase(uvm_phase phase);
@@ -49,9 +56,65 @@ class rkv_gpio_cov extends rkv_gpio_subscriber;
   endfunction
 
   function void write(lvc_ahb_transaction tr);
-    cg_interrupt_type.sample(tr);
+    if(tr.xact_type == lvc_ahb_transaction::WRITE) begin
+        case(tr.addr[15:0])
+            RKV_ROUTER_REG_ADDR_INTENSET: begin
+                inten_val = tr.data[15:0];
+                inten_updated = 1;
+                extract_pin_id();
+            end
+            RKV_ROUTER_REG_ADDR_INTTYPESET: begin
+                inttype_val = tr.data[15:0];
+                inttype_updated = 1;
+            end
+            RKV_ROUTER_REG_ADDR_INTPOLSET: begin
+                intpol_val = tr.data[15:0];
+                intpol_updated = 1;
+                //whether 3 reg have updated
+                if(inten_updated && inttype_updated && intpol_updated) 
+                    calculate_int_type();
+                    cg_interrupt_type.sample();
+                    `uvm_info(get_type_name(), $sformatf("Sampled: pin_id=%0d, int_type=%s", pin_id, current_int_type.name()), UVM_MEDIUM)
+                    //reset status
+                    inten_updated   = 0;
+                    inttype_updated = 0;
+                    intpol_updated  = 0;
+            end
+            RKV_ROUTER_REG_ADDR_INTCLEAR: begin
+                intclear_val = tr.data[15:0];
+            end
+        endcase
+    end
   endfunction
 
+  //which bit=1, means that bit is the pin be set to interrupt-function(1)
+  function void extract_pin_id();
+    for(int i = 0; i < 16; i++) begin
+        if(inten_val[i]) begin
+            pin_id = i;
+            return;
+        end
+    end
+  endfunction
+
+  function void calculate_int_type();
+    bit is_edge  = inttype_val[pin_id];     //0->level, 1->edge
+    bit polarity = intpol_val[pin_id];      //0->low,  1->high
+
+    if(!is_edge && polarity) begin
+        current_int_type = HIGH_LEVEL;
+    end
+    else if(!is_edge && !polarity) begin
+        current_int_type = LOW_LEVEL;
+    end
+    else if(is_edge && polarity) begin
+        current_int_type = RISING_EDGE;
+    end
+    else if(is_edge && !polarity) begin
+        current_int_type = FALLING_EDGE;
+    end
+  endfunction
+  
   task do_listen_events();
     
   endtask
